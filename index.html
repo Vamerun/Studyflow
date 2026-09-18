@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StudyFlow</title>
+  <meta name="description" content="A focus timer and task tracker for students. Runs in your browser, saves to your device.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📐</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/style.css">
+</head>
+<body data-mode="focus">
+  <header class="top">
+    <h1>StudyFlow</h1>
+    <p class="sub">Pick a task, run a timer, mark the squares.</p>
+  </header>
+
+  <main class="layout">
+    <section class="panel timer" aria-labelledby="timer-h">
+      <h2 id="timer-h" class="visually-hidden">Timer</h2>
+
+      <div class="modes" role="group" aria-label="Timer mode">
+        <button type="button" class="mode" data-mode="focus">Focus</button>
+        <button type="button" class="mode" data-mode="short">Short break</button>
+        <button type="button" class="mode" data-mode="long">Long break</button>
+      </div>
+
+      <div class="dial">
+        <svg class="ring" viewBox="0 0 240 240" aria-hidden="true">
+          <circle class="ring-track" cx="120" cy="120" r="110"></circle>
+          <circle class="ring-bar" id="ring-bar" cx="120" cy="120" r="110"></circle>
+        </svg>
+        <div class="dial-inner">
+          <div class="digits" id="digits" role="timer">25:00</div>
+          <p class="now" id="now">No task selected</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button type="button" class="btn primary" id="toggle">Start</button>
+        <button type="button" class="btn" id="reset">Reset</button>
+        <button type="button" class="btn" id="skip">Skip</button>
+      </div>
+      <p class="hint">Press <kbd>Space</kbd> to start or pause.</p>
+
+      <details class="settings">
+        <summary>Timer lengths</summary>
+        <div class="settings-grid">
+          <label>Focus <input type="number" id="set-focus" min="1" max="180" inputmode="numeric"> min</label>
+          <label>Short break <input type="number" id="set-short" min="1" max="180" inputmode="numeric"> min</label>
+          <label>Long break <input type="number" id="set-long" min="1" max="180" inputmode="numeric"> min</label>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel tasks" aria-labelledby="tasks-h">
+      <h2 id="tasks-h">Tasks</h2>
+      <form id="task-form" class="task-form" autocomplete="off">
+        <input type="text" id="task-title" placeholder="What are you working on?" maxlength="120" aria-label="Task title" required>
+        <label class="est">
+          <span>Squares</span>
+          <input type="number" id="task-est" value="2" min="1" max="12" inputmode="numeric">
+        </label>
+        <button type="submit" class="btn primary">Add task</button>
+      </form>
+      <ul id="task-list" class="task-list"></ul>
+      <p id="empty" class="empty" hidden>No tasks yet. Add one above, then select it to focus on it.</p>
+      <p class="hint">One square = one finished focus session.</p>
+    </section>
+
+    <section class="panel week" aria-labelledby="week-h">
+      <h2 id="week-h">Last 7 days</h2>
+      <div class="stats">
+        <p><strong id="stat-today">0</strong> min today</p>
+        <p><strong id="stat-sessions">0</strong> sessions today</p>
+        <p><strong id="stat-streak">0</strong> day streak</p>
+      </div>
+      <div class="bars" id="bars" role="img" aria-label="Focus minutes for each of the last 7 days"></div>
+      <div class="data-actions">
+        <button type="button" class="btn" id="export">Export data</button>
+        <button type="button" class="btn danger" id="clear">Clear all data</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Your data stays in this browser. <a href="https://github.com/Vamerun/studyflow">Source on GitHub</a></p>
+  </footer>
+
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
